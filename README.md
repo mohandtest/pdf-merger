@@ -24,7 +24,7 @@ Et komplett offline verktøy for å slå sammen flere PDF-filer til ett dokument
 
 ## Tekniske detaljer
 
-- **PDF-lib**: JavaScript-bibliotek for PDF-manipulering (lagret lokalt)
+- **PDF-lib**: JavaScript-bibliotek for PDF-manipulering (lagret lokalt) - [pdf-lib.js.org](https://pdf-lib.js.org/)
 - **Egendefinert Sortable**: Lett dra-og-slipp-implementering (ingen eksterne avhengigheter)
 - **Moderne Web API-er**: FileReader, Blob, URL.createObjectURL
 
@@ -70,6 +70,11 @@ Denne applikasjonen kan fungere helt offline når den er lastet. Du kan:
 ## Akademisk verktøy
 
 Dette verktøyet er designet som et selvhjelpserktøy for forelesere og studenter ved NTNU, slik at de ikke trenger å bruke eksterne nettsteder for PDF-sammenslåing.
+
+## Credits
+
+- **PDF-lib**: Takk til [Hopding](https://github.com/Hopding) og bidragsyterne til [PDF-lib](https://github.com/Hopding/pdf-lib) for det fantastiske JavaScript PDF-biblioteket
+- **Inspirasjon**: Design inspirert av NTNU's DokuWiki-plattform
 
 ## Contributing
 

@@ -336,6 +336,12 @@ footer {
     margin: 0;
 }
 
+.footer-content .credits {
+    margin-top: 5px;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
 .footer-content a {
     color: #003d82;
     text-decoration: none;
