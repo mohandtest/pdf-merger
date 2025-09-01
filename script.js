@@ -1,6 +1,9 @@
 class PDFMerger {
     constructor() {
         this.files = [];
+        this.maxFileSize = 50 * 1024 * 1024; // 50MB per fil
+        this.maxTotalSize = 200 * 1024 * 1024; // 200MB totalt
+        this.maxFiles = 20; // Maksimum 20 filer
         this.init();
     }
 
@@ -57,12 +60,29 @@ class PDFMerger {
             this.showStatus('Bare PDF-filer er tillatt!', 'error');
         }
 
-        pdfFiles.forEach(file => {
+        // Sjekk individuelle filstørrelser og totalt antall
+        for (const file of pdfFiles) {
+            if (file.size > this.maxFileSize) {
+                this.showStatus(`Filen "${file.name}" er for stor (${this.formatFileSize(file.size)}). Maksimal filstørrelse er ${this.formatFileSize(this.maxFileSize)}.`, 'error');
+                continue;
+            }
+
+            if (this.files.length >= this.maxFiles) {
+                this.showStatus(`Kan ikke legge til flere filer. Maksimalt ${this.maxFiles} filer er tillatt.`, 'error');
+                break;
+            }
+
             if (!this.files.some(existingFile => 
                 existingFile.name === file.name && existingFile.size === file.size)) {
                 this.files.push(file);
             }
-        });
+        }
+
+        // Sjekk total størrelse
+        const totalSize = this.files.reduce((sum, file) => sum + file.size, 0);
+        if (totalSize > this.maxTotalSize) {
+            this.showStatus(`Total filstørrelse (${this.formatFileSize(totalSize)}) overstiger grensen på ${this.formatFileSize(this.maxTotalSize)}. Fjern noen filer.`, 'error');
+        }
 
         this.updateFileList();
         this.updateMergeButton();
@@ -116,7 +136,18 @@ class PDFMerger {
 
     updateMergeButton() {
         const mergeBtn = document.getElementById('mergeBtn');
-        mergeBtn.disabled = this.files.length < 2;
+        const totalSize = this.files.reduce((sum, file) => sum + file.size, 0);
+        
+        const isDisabled = this.files.length < 2 || totalSize > this.maxTotalSize;
+        mergeBtn.disabled = isDisabled;
+        
+        if (totalSize > this.maxTotalSize) {
+            mergeBtn.title = `Total størrelse (${this.formatFileSize(totalSize)}) overstiger grensen`;
+        } else if (this.files.length < 2) {
+            mergeBtn.title = 'Velg minst 2 filer';
+        } else {
+            mergeBtn.title = `Klar til å slå sammen ${this.files.length} filer (${this.formatFileSize(totalSize)})`;
+        }
     }
 
     async mergePDFs() {
@@ -125,9 +156,21 @@ class PDFMerger {
             return;
         }
 
+        const totalSize = this.files.reduce((sum, file) => sum + file.size, 0);
+        if (totalSize > this.maxTotalSize) {
+            this.showStatus(`Total filstørrelse (${this.formatFileSize(totalSize)}) er for stor. Maksimal størrelse er ${this.formatFileSize(this.maxTotalSize)}.`, 'error');
+            return;
+        }
+
         const mergeBtn = document.getElementById('mergeBtn');
         const progressBar = document.getElementById('progressBar');
         const progressFill = document.getElementById('progressFill');
+
+        // Vis advarsel for store filer
+        if (totalSize > 50 * 1024 * 1024) { // 50MB
+            const proceed = confirm(`Du er i ferd med å behandle ${this.formatFileSize(totalSize)} data. Dette kan ta lang tid og bruke mye minne. Fortsette?`);
+            if (!proceed) return;
+        }
 
         try {
             mergeBtn.disabled = true;
@@ -137,6 +180,7 @@ class PDFMerger {
 
             // Create a new PDF document
             const mergedPdf = await PDFLib.PDFDocument.create();
+            let processedSize = 0;
 
             // Process each file
             for (let i = 0; i < this.files.length; i++) {
@@ -145,19 +189,31 @@ class PDFMerger {
                 progressFill.style.width = `${progress}%`;
 
                 try {
+                    console.log(`Behandler fil ${i + 1}/${this.files.length}: ${file.name} (${this.formatFileSize(file.size)})`);
+                    
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    const pageCount = pdf.getPageCount();
                     
+                    if (pageCount > 100) {
+                        console.warn(`Stor PDF: ${file.name} har ${pageCount} sider`);
+                    }
+                    
+                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                     pages.forEach((page) => mergedPdf.addPage(page));
+                    
+                    processedSize += file.size;
+                    console.log(`Behandlet: ${this.formatFileSize(processedSize)}/${this.formatFileSize(totalSize)}`);
+                    
                 } catch (error) {
                     console.error(`Error processing file ${file.name}:`, error);
-                    throw new Error(`Kunne ikke behandle "${file.name}". Sørg for at det er en gyldig PDF-fil.`);
+                    throw new Error(`Kunne ikke behandle "${file.name}". ${error.message || 'Sørg for at det er en gyldig PDF-fil.'}`);
                 }
             }
 
-            // Generate the merged PDF
+            console.log('Genererer sammenslått PDF...');
             const mergedPdfBytes = await mergedPdf.save();
+            console.log(`Sammenslått PDF generert: ${this.formatFileSize(mergedPdfBytes.length)}`);
 
             // Create download link
             const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
@@ -170,11 +226,23 @@ class PDFMerger {
             document.body.removeChild(downloadLink);
             URL.revokeObjectURL(url);
 
-            this.showStatus(`Vellykket! Slo sammen ${this.files.length} PDF-filer.`, 'success');
+            this.showStatus(`Vellykket! Slo sammen ${this.files.length} PDF-filer til ${this.formatFileSize(mergedPdfBytes.length)}.`, 'success');
 
         } catch (error) {
             console.error('Merge error:', error);
-            this.showStatus(`Feil: ${error.message}`, 'error');
+            let errorMessage = 'Ukjent feil oppstod under sammenslåing.';
+            
+            if (error.message.includes('OutOfMemoryError') || error.message.includes('memory')) {
+                errorMessage = 'Ikke nok minne tilgjengelig. Prøv med færre eller mindre filer.';
+            } else if (error.message.includes('Invalid PDF')) {
+                errorMessage = 'En av filene er ikke en gyldig PDF.';
+            } else if (error.message.includes('timeout')) {
+                errorMessage = 'Operasjonen tok for lang tid. Prøv med mindre filer.';
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+            
+            this.showStatus(`Feil: ${errorMessage}`, 'error');
         } finally {
             mergeBtn.disabled = false;
             mergeBtn.innerHTML = 'Slå sammen PDF-er';

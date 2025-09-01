@@ -1,6 +1,9 @@
 # PDF-sammenslåing
 
-Et komplett offline verktøy for å slå sammen flere PDF-filer til ett dokument. All behandling skjer i nettleseren uten eksterne avhengigheter - ingen filer blir lagret på servere og ingen nettverksforespørsler gjøres etter at siden er lastet.
+Et komplett verktøy for å slå sammen flere PDF-filer til ett dokument. All behandling skjer i nettleseren uten eksterne avhengigheter - ingen filer blir lagret på servere og ingen nettverksforespørsler gjøres etter at siden er lastet.
+
+## Motivasjon
+Ønsket ikke å bruke tilfeldige nettsider som mest sannsynlig samler data om deg og filene du laster opp.
 
 ## Funksjoner
 
@@ -50,15 +53,32 @@ pdf-merge/
 
 ## Nettleserstøtte
 
-Fungerer i alle moderne nettlesere:
+Burde fungere i alle moderne nettlesere:
 - Chrome 60+
 - Firefox 55+
 - Safari 12+
 - Edge 79+
 
-## Filstørrelsesgrenser
+## Filstørrelsesgrenser og begrensninger
 
-Klientside behandling er begrenset av tilgjengelig nettleserminne. For svært store PDF-filer (>100MB hver), vurder å dele store filer først.
+### 📏 **Grenser:**
+- **Maksimal filstørrelse:** 50MB per PDF-fil
+- **Maksimal total størrelse:** 200MB for alle filer samlet
+- **Maksimalt antall filer:** 20 PDF-filer samtidig
+- **Advarsel ved store filer:** Konfirmasjonsmelding ved >50MB total størrelse
+
+### ⚠️ **Begrensninger:**
+- **Minnebruk:** Klientside behandling er begrenset av tilgjengelig nettleserminne
+- **Ytelse:** Svært store filer (>100MB) eller mange sider kan gi treg behandling
+- **Nettleser:** Eldre nettlesere kan ha lavere minnesgrenser
+
+### 🛡️ **Feilhåndtering:**
+- **Filtype-validering:** Bare PDF-filer aksepteres
+- **Størrelsesjekker:** Validerer både individuelle filer og total størrelse
+- **PDF-validering:** Sjekker at filer er gyldige PDF-dokumenter
+- **Minnefeilhåndtering:** Spesifikke feilmeldinger for minneproblemer
+- **Detaljert logging:** Console-logger for feilsøking
+- **Brukervenlige meldinger:** Norske feilmeldinger med forslag til løsning
 
 ## Helt offline
 
