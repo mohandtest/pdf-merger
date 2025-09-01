@@ -318,6 +318,33 @@ h3 {
     font-size: 13px;
 }
 
+/* Footer */
+footer {
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    margin-top: 20px;
+}
+
+.footer-content {
+    padding: 20px 40px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 13px;
+}
+
+.footer-content p {
+    margin: 0;
+}
+
+.footer-content a {
+    color: #003d82;
+    text-decoration: none;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
+
 /* Sortable enhancements */
 .sortable-ghost {
     opacity: 0.4;
@@ -364,5 +391,10 @@ h3 {
 
     h1 {
         font-size: 20px;
+    }
+
+    .footer-content {
+        padding: 15px 20px;
+        font-size: 12px;
     }
 }
