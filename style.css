@@ -1,0 +1,368 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #222;
+    background: #f8f8f8;
+}
+
+/* NTNU-inspired header */
+.dokuwiki header {
+    margin-bottom: 20px;
+}
+
+#bluebar {
+    background: #003d82;
+    color: white;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Main wrapper */
+.wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    min-height: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.show {
+    display: block;
+}
+
+.content {
+    padding: 30px 40px;
+}
+
+/* Typography */
+h1 {
+    font-size: 24px;
+    color: #222;
+    margin-bottom: 20px;
+    font-weight: normal;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+h3 {
+    font-size: 16px;
+    color: #222;
+    margin: 20px 0 10px 0;
+    font-weight: bold;
+}
+
+.intro-text {
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f0f4f8;
+    border-left: 3px solid #003d82;
+}
+
+.intro-text p {
+    margin: 0;
+    color: #444;
+}
+
+/* Upload area */
+.upload-area {
+    border: 2px dashed #003d82;
+    border-radius: 4px;
+    padding: 40px 20px;
+    text-align: center;
+    background: #fafbfc;
+    margin-bottom: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: #0056b8;
+    background: #f0f4f8;
+}
+
+.upload-area.dragover {
+    border-color: #0056b8;
+    background: #e8f2ff;
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    color: #003d82;
+    margin-bottom: 15px;
+}
+
+.upload-text {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.file-input {
+    display: none;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    text-decoration: none;
+    background: #f8f9fa;
+    color: #212529;
+    border-color: #dee2e6;
+    margin: 2px;
+}
+
+.btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.btn-primary {
+    background: #003d82;
+    color: white;
+    border-color: #003d82;
+}
+
+.btn-primary:hover {
+    background: #002a5c;
+    border-color: #002a5c;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+    border-color: #545b62;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* File list */
+.file-list {
+    margin: 20px 0;
+    min-height: 100px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.file-item:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.file-icon {
+    color: #dc3545;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.file-name {
+    font-weight: 500;
+    color: #212529;
+}
+
+.file-size {
+    color: #6c757d;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.remove-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.remove-btn:hover {
+    background: #c82333;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #003d82;
+    margin-right: 10px;
+    user-select: none;
+    font-size: 12px;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+/* Controls */
+.merge-controls {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px 0;
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Progress bar */
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #dee2e6;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 20px 0;
+    display: none;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #003d82;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Status messages */
+.status-message {
+    padding: 12px 15px;
+    border-radius: 3px;
+    margin: 20px 0;
+    display: none;
+    font-size: 13px;
+}
+
+.status-success {
+    background: #d1f2eb;
+    color: #0c5235;
+    border: 1px solid #7cc7a5;
+}
+
+.status-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.empty-state {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border: 1px dashed #dee2e6;
+    border-radius: 3px;
+}
+
+/* Info section */
+.info-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #dee2e6;
+}
+
+.info-section ol {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+.info-section li {
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.privacy-note {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 3px;
+    color: #856404;
+    font-size: 13px;
+}
+
+/* Sortable enhancements */
+.sortable-ghost {
+    opacity: 0.4;
+}
+
+.sortable-placeholder {
+    height: 60px;
+    margin: 8px 0;
+    background: #e8f2ff;
+    border: 2px dashed #003d82;
+    border-radius: 3px;
+    opacity: 0.6;
+}
+
+.file-item[draggable="true"]:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .content {
+        padding: 20px;
+    }
+
+    .upload-area {
+        padding: 30px 15px;
+    }
+
+    .file-item {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .file-info {
+        justify-content: center;
+    }
+
+    #bluebar {
+        padding: 8px 15px;
+        font-size: 11px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}

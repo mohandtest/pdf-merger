@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF-sammenslåing - Slå sammen PDF-filer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dokuwiki">
+        <header>
+            <div id="bluebar">
+                Institutt for matematiske fag, NTNU
+            </div>
+        </header>
+
+        <div class="wrapper">
+            <article class="show">
+                <div class="content">
+                    <h1>PDF-sammenslåing</h1>
+                    
+                    <div class="intro-text">
+                        <p>Et enkelt verktøy for å slå sammen flere PDF-filer til ett dokument. 
+                        All behandling skjer i nettleseren din - ingen filer blir lagret på serveren.</p>
+                    </div>
+
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Dra og slipp PDF-filer her</div>
+                        <div>eller</div>
+                        <br>
+                        <button class="btn" onclick="document.getElementById('fileInput').click()">
+                            Velg filer
+                        </button>
+                        <input type="file" id="fileInput" class="file-input" multiple accept=".pdf">
+                    </div>
+
+                    <div class="file-list" id="fileList">
+                        <div class="empty-state">Ingen filer valgt. Velg PDF-filer som skal slås sammen.</div>
+                    </div>
+
+                    <div class="merge-controls">
+                        <button class="btn btn-primary" id="mergeBtn" disabled onclick="mergePDFs()">
+                            Slå sammen PDF-er
+                        </button>
+                        <button class="btn btn-secondary" id="clearBtn" onclick="clearFiles()">
+                            Fjern alle
+                        </button>
+                    </div>
+
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <div class="status-message" id="statusMessage"></div>
+                    
+                    <div class="info-section">
+                        <h3>Slik bruker du verktøyet:</h3>
+                        <ol>
+                            <li>Velg eller dra PDF-filer til upload-området</li>
+                            <li>Dra filene for å endre rekkefølge (bruk ⋮⋮-håndtaket)</li>
+                            <li>Klikk "Slå sammen PDF-er" for å kombinere filene</li>
+                            <li>Den sammenlåtte PDF-en blir automatisk lastet ned</li>
+                        </ol>
+                        
+                        <div class="privacy-note">
+                            <strong>Personvern:</strong> Alle filer behandles lokalt i nettleseren din. 
+                            Ingen data sendes til eksterne servere eller blir lagret.
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script src="pdf-lib.min.js"></script>
+    <script src="sortable.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
