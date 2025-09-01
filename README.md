@@ -2,7 +2,9 @@
 Et komplett verktøy for å slå sammen flere PDF-filer til ett dokument. All behandling skjer i nettleseren uten eksterne avhengigheter - ingen filer blir lagret på servere og ingen nettverksforespørsler gjøres etter at siden er lastet. [Test her.](https://mohandtest.github.io/pdf-merger/)
 
 ## Motivasjon
-Ønsket ikke å bruke tilfeldige nettsider som mest sannsynlig samler data om deg og filene du laster opp.
+I kurset TMA4245 skal besvarelser leveres som PDF-filer, og man blir anbefalt bruk av verktøy fra eksterne lenker for å samle filer. For å gjøre dette enklere og mer praktisk, laget jeg et verktøy som lar PDF-sammenslåing skje helt lokalt i nettleseren, uten behov for eksterne tjenester.
+
+**DISCLAIMER:** Dette prosjektet er en studentløsning som ikke er støttet av NTNU - og har ikke tilknyttning til det matematiske fakultet, men er ment som et verktøy som skal kunne brukes heller enn å legge ut sensetiv informasjon på en tilfeldig nettside.
 
 ## Funksjoner
 
@@ -60,18 +62,18 @@ Burde fungere i alle moderne nettlesere:
 
 ## Filstørrelsesgrenser og begrensninger
 
-### 📏 **Grenser:**
+### **Grenser:**
 - **Maksimal filstørrelse:** 50MB per PDF-fil
 - **Maksimal total størrelse:** 200MB for alle filer samlet
 - **Maksimalt antall filer:** 20 PDF-filer samtidig
 - **Advarsel ved store filer:** Konfirmasjonsmelding ved >50MB total størrelse
 
-### ⚠️ **Begrensninger:**
+### **Begrensninger:**
 - **Minnebruk:** Klientside behandling er begrenset av tilgjengelig nettleserminne
 - **Ytelse:** Svært store filer (>100MB) eller mange sider kan gi treg behandling
 - **Nettleser:** Eldre nettlesere kan ha lavere minnesgrenser
 
-### 🛡️ **Feilhåndtering:**
+### **Feilhåndtering:**
 - **Filtype-validering:** Bare PDF-filer aksepteres
 - **Størrelsesjekker:** Validerer både individuelle filer og total størrelse
 - **PDF-validering:** Sjekker at filer er gyldige PDF-dokumenter
@@ -87,7 +89,6 @@ Denne applikasjonen kan fungere helt offline når den er lastet. Du kan:
 3. Slå sammen PDF-er uten internettforbindelse
 
 ## Akademisk verktøy
-
 Dette verktøyet er designet som et selvhjelpserktøy for forelesere og studenter ved NTNU, slik at de ikke trenger å bruke eksterne nettsteder for PDF-sammenslåing.
 
 ## Credits
